@@ -30,5 +30,5 @@ $ docker run -it --rm rps-simulator php app.php --repeats=10000
 ##### Run tests
 
 ```
-$ docker run -it --rm rps-simulator vendor/bin/phpunit tests
+$ docker run -it --rm rps-simulator vendor/bin/phpunit
 ```
