@@ -17,16 +17,13 @@ RUN apt-get update \
 # Install extensions
 RUN docker-php-ext-install zip
 
-COPY docker-app-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["sh", "/usr/local/bin/docker-app-entrypoint.sh"]
-
 # Install composer
 RUN curl -sS https://getcomposer.org/installer  | php -- --install-dir=/usr/bin/ --filename=composer
 
 # Install dependencies
 RUN composer global require hirak/prestissimo
 COPY composer.json composer.lock ./
-RUN composer install
+RUN composer install -o
 
 # Copy app
 COPY . /app

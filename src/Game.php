@@ -30,33 +30,64 @@ class Game
         $this->repeats = $repeats;
     }
 
+    /**
+     * @return array
+     */
     public function simulate()
     {
-        $outcomes = [
-            Outcomes::FIRST_WINS()->getValue() => 0,
-            Outcomes::DRAW()->getValue() => 0,
-            Outcomes::SECOND_WINS()->getValue() => 0,
-        ];
+        $outcomes = [];
+        foreach ($this->getOutcomesInOrder() as $outcome) {
+            $outcomes[static::getOutcomeKey($outcome)] = 0;
+        }
         for ($i = 0; $i < $this->repeats; ++$i) {
             $player1_variant = $this->player1->getVariant();
             $player2_variant = $this->player2->getVariant();
             $outcome = $player1_variant->compareTo($player2_variant);
-            $outcomes[$outcome->getValue()] += 1;
+            $outcomes[static::getOutcomeKey($outcome)] += 1;
         }
         return $outcomes;
     }
 
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param array $outcomes
+     */
     public function printResults(OutputInterface $output, array $outcomes)
     {
         $table = new Table($output);
+        $rows = [];
+        foreach ($this->getOutcomesInOrder() as $outcome) {
+            $rows[] = [
+                $outcome->getKey(),
+                $outcomes[static::getOutcomeKey($outcome)],
+                $outcomes[static::getOutcomeKey($outcome)] / $this->repeats * 100,
+            ];
+        }
         $table
             ->setHeaders(['Outcome', 'Total wins', '% of wins'])
-            ->setRows([
-                ['First player wins', $outcomes[Outcomes::FIRST_WINS()->getValue()], $outcomes[Outcomes::FIRST_WINS()->getValue()] / $this->repeats * 100],
-                ['Draw', $outcomes[Outcomes::DRAW()->getValue()], $outcomes[Outcomes::DRAW()->getValue()] / $this->repeats * 100],
-                ['Second player wins', $outcomes[Outcomes::SECOND_WINS()->getValue()], $outcomes[Outcomes::SECOND_WINS()->getValue()] / $this->repeats * 100],
-            ])
+            ->setRows($rows)
         ;
         $table->render();
+    }
+
+    /**
+     * @return \app\Outcomes[]
+     */
+    protected function getOutcomesInOrder() : array
+    {
+        return [
+            Outcomes::FIRST_WINS(),
+            Outcomes::DRAW(),
+            Outcomes::SECOND_WINS(),
+        ];
+    }
+
+    /**
+     * @param \app\Outcomes $outcome
+     * @return mixed
+     */
+    public static function getOutcomeKey(Outcomes $outcome)
+    {
+        return $outcome->getKey();
     }
 }
