@@ -1,5 +1,5 @@
-# rps-simulator
-Rock Paper Scissors Bot simulator
+# Rock Paper Scissors simulator
+[![Build Status](https://travis-ci.com/myxobek/rps-simulator.svg?token=X3skejxdzxxuKbFKy2sx&branch=master)](https://travis-ci.com/myxobek/rps-simulator)
 
 ## Run
 
