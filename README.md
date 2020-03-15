@@ -1,5 +1,6 @@
 # Rock Paper Scissors simulator
 [![Build Status](https://travis-ci.com/myxobek/rps-simulator.svg?token=X3skejxdzxxuKbFKy2sx&branch=master)](https://travis-ci.com/myxobek/rps-simulator)
+[![codecov](https://codecov.io/gh/myxobek/rps-simulator/branch/master/graph/badge.svg?token=EVLS8D8QMB)](https://codecov.io/gh/myxobek/rps-simulator)
 
 ## Run
 
