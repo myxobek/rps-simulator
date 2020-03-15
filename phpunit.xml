@@ -5,10 +5,14 @@
          convertWarningsToExceptions="true"
          stopOnWarning="true"
          stopOnFailure="true">
-
     <testsuites>
         <testsuite name="all">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+    </filter>
 </phpunit>
