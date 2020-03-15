@@ -15,9 +15,17 @@ class ScissorsVariantTest extends TestCase
     {
         return [
             [
+                'other' => new RockVariant(),
+                'expected_outcome' => Outcomes::SECOND_WINS(),
+            ],
+            [
                 'other' => new PaperVariant(),
                 'expected_outcome' => Outcomes::FIRST_WINS(),
-            ]
+            ],
+            [
+                'other' => new ScissorsVariant(),
+                'expected_outcome' => Outcomes::DRAW(),
+            ],
         ];
     }
 

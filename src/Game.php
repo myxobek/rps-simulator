@@ -49,20 +49,30 @@ class Game
     }
 
     /**
+     * @param array $outcomes
+     * @return array
+     */
+    public function prepareRows(array $outcomes) : array
+    {
+        $rows = [];
+        foreach ($this->getOutcomesInOrder() as $outcome) {
+            $rows[] = [
+                static::getOutcomeKey($outcome),
+                $outcomes[static::getOutcomeKey($outcome)],
+                $outcomes[static::getOutcomeKey($outcome)] / $this->repeats * 100,
+            ];
+        }
+        return $rows;
+    }
+
+    /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      * @param array $outcomes
      */
     public function printResults(OutputInterface $output, array $outcomes)
     {
         $table = new Table($output);
-        $rows = [];
-        foreach ($this->getOutcomesInOrder() as $outcome) {
-            $rows[] = [
-                $outcome->getKey(),
-                $outcomes[static::getOutcomeKey($outcome)],
-                $outcomes[static::getOutcomeKey($outcome)] / $this->repeats * 100,
-            ];
-        }
+        $rows = $this->prepareRows($outcomes);
         $table
             ->setHeaders(['Outcome', 'Total wins', '% of wins'])
             ->setRows($rows)
